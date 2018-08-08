@@ -86,6 +86,7 @@
     <Compile Include="Assets\Script\Enemy\SmallEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\SmallEnemyBattleTrigger.cs" />
     <Compile Include="Assets\Script\Floor.cs" />
+    <Compile Include="Assets\Script\HpChecker.cs" />
     <Compile Include="Assets\Script\NetWork\BulletPrefab.cs" />
     <Compile Include="Assets\Script\NetWork\Move.cs" />
     <Compile Include="Assets\Script\Player.cs" />

@@ -5,7 +5,14 @@ using UnityEngine;
 public enum MonsterType {Small, Normal, Big, Elite, Boss }
 public enum MonsterState {Idle, Chase, Attack, Dead }
 public abstract class Enemy : MonoBehaviour {
+    public int enemyAtk;
+    public int enemyDef;
+    public int enemyMaxHp;
+    public int enemyCurrentHp;
+    public float enemySpeed;
 
+    public virtual void SetInitState() { }
+    
     public virtual void MoveRight() { }
     public virtual void MoveLeft() { }
     

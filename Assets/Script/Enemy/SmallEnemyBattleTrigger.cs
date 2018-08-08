@@ -7,6 +7,7 @@ public class SmallEnemyBattleTrigger : MonoBehaviour {
     public MonsterState monsterState;
     public bool encounterPlayer;
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -29,6 +30,20 @@ public class SmallEnemyBattleTrigger : MonoBehaviour {
                     break;
             }
                 
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Player>().nearEnemy = this.transform.parent.gameObject;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Player>().nearEnemy = null;
         }
     }
 }

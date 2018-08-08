@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class SmallEnemy : Enemy {
     public SmallEnemyBattleTrigger enemyTrigger;
-
-    public float enemySpeed;
+    
     public bool direction; // false -> left, true -> right
 
     private bool limitMove;
-    
+
+    public override void SetInitState()
+    {
+        enemyAtk = 3;
+        enemyDef = 3;
+        enemySpeed = 0.5f;
+        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>(), GetComponent<Collider2D>());
+    }
+    private void EnemyAttack()
+    {
+        if (Input.GetButtonDown("Fire3")) // left shift
+        {
+            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            if (player.nearEnemy!= null)
+                BattleController.AttackEnemyToPlayer(player, this);
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "EnemyFloorTrigger")
@@ -26,7 +41,7 @@ public class SmallEnemy : Enemy {
             limitMove = false;
         }
     }
-
+    
     public override void MoveLeft()
     {
         this.transform.position = new Vector2(this.transform.position.x - enemySpeed * Time.deltaTime, this.transform.position.y);
@@ -79,21 +94,14 @@ public class SmallEnemy : Enemy {
             
         
     }
-    public override void AttackState()
-    {
-        base.AttackState();
-    }
-    public override void DeadState()
-    {
-        base.DeadState();
-    }
     private void Start()
     {
-        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        SetInitState();
     }
     private void Update()
     {
         base.EnemyMovement(enemyTrigger.monsterState);
+        EnemyAttack();
     }
     
 }

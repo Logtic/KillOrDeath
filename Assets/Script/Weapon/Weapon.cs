@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour{
+public abstract class Weapon : MonoBehaviour{
+    public int weaponAtk;
     public virtual void NormalAttack() { }
 
 }
