@@ -4,26 +4,17 @@ using UnityEngine;
 
 public class SmallEnemy : Enemy {
     public SmallEnemyBattleTrigger enemyTrigger;
+
+    public Animation enemyAnim;
     
     public bool direction; // false -> left, true -> right
 
     private bool limitMove;
-
+    
     public override void SetInitState()
     {
-        enemyAtk = 3;
-        enemyDef = 3;
-        enemySpeed = 0.5f;
+        attacking = false;
         Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>(), GetComponent<Collider2D>());
-    }
-    private void EnemyAttack()
-    {
-        if (Input.GetButtonDown("Fire3")) // left shift
-        {
-            Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            if (player.nearEnemy!= null)
-                BattleController.AttackEnemyToPlayer(player, this);
-        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -53,19 +44,20 @@ public class SmallEnemy : Enemy {
 
     public override void IdleState()
     {
+        enemyAnim.Play(enemyName + "Idle");
         if (direction)
             MoveRight();
         else
             MoveLeft();
-
         
+
     }
 
     public override void ChaseState()
     {
         GameObject player = GameObject.FindWithTag("Player");
-        
-            if (!limitMove)
+        enemyAnim.Play(enemyName + "Idle");
+        if (!limitMove)
             {
                 if (player.transform.position.x > this.transform.position.x)
                 {
@@ -94,6 +86,28 @@ public class SmallEnemy : Enemy {
             
         
     }
+
+    private bool attacking;
+    public override void AttackState()
+    {
+        if (direction && attacking == false)
+        {
+            attacking = true;
+            enemyAnim.Play(enemyName + "AttackToRight");
+        }
+        else if (!direction && attacking == false)
+        {
+            attacking = true;
+            enemyAnim.Play(enemyName + "AttackToLeft");
+        }
+            
+        if (enemyTrigger.endAttack)
+        {
+            enemyTrigger.endAttack = false;
+            attacking = false;
+            enemyTrigger.monsterState = MonsterState.Chase;
+        }
+    }
     private void Start()
     {
         SetInitState();
@@ -101,7 +115,6 @@ public class SmallEnemy : Enemy {
     private void Update()
     {
         base.EnemyMovement(enemyTrigger.monsterState);
-        EnemyAttack();
     }
     
 }

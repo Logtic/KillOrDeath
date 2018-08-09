@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmallEnemyBattleTrigger : MonoBehaviour {
+public class SmallEnemyBattleTrigger : MonoBehaviour { // 적의 전투관련 모두
     public MonsterType monsterType;
     public MonsterState monsterState;
     public bool encounterPlayer;
+    public bool endAttack;
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void EnemyAttack(Player player)
+    {
+        endAttack = true;
+        BattleController.AttackEnemyToPlayer(player, this.transform.parent.GetComponent<Enemy>());
+    }
+    
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -21,29 +27,14 @@ public class SmallEnemyBattleTrigger : MonoBehaviour {
                     break;
                 case MonsterState.Chase:
                     monsterState = MonsterState.Attack;
+                    endAttack = false;
                     break;
-                case MonsterState.Attack:
-                    encounterPlayer = false;
-                    monsterState = MonsterState.Chase;
-                    break;
-                case MonsterState.Dead:
+                default:
                     break;
             }
                 
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            collision.gameObject.GetComponent<Player>().nearEnemy = this.transform.parent.gameObject;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            collision.gameObject.GetComponent<Player>().nearEnemy = null;
-        }
-    }
+
+    //몬스터가 플레이어를 어케 감지하는가
 }

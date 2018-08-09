@@ -91,6 +91,7 @@
     <Compile Include="Assets\Script\NetWork\Move.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\SaveData.cs" />
+    <Compile Include="Assets\Script\SceneLoader.cs" />
     <Compile Include="Assets\Script\UIInGame.cs" />
     <Compile Include="Assets\Script\Weapon\Knife.cs" />
     <Compile Include="Assets\Script\Weapon\Weapon.cs" />

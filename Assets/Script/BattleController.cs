@@ -11,11 +11,12 @@ public class BattleController : MonoBehaviour {
          */
     }
     public static void AttackEnemyToPlayer(Player player, Enemy enemy) {
-        
+
         /*적이 플레이어한테 공격한다.
          플레이어가 받는 피해는 ( 적의 공격력(enemyAtk) ) - ( 플레이어의 방어력(playerDef) ) / 2 이다.
 
          */
+        player.playerCurrentHp -= 1;
     }
 
     //각각 받은 피해가 음수가 되면 안되도록 조건도 맞춰줄 것!!

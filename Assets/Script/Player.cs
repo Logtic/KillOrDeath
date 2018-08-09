@@ -19,18 +19,13 @@ public class Player : MonoBehaviour {
     {
         currentJumpCount = 0;
     }
-    public GameObject nearEnemy;
-
 
     private void PlayerAttack()
     {
         if (Input.GetButtonDown("Fire1")) // Ctrl
         {
             this.transform.GetChild(0).GetComponent<Weapon>().NormalAttack();
-            if (nearEnemy != null)
-            {
-                BattleController.AttackPlayerToEnemy(this, nearEnemy.GetComponent<Enemy>());
-            }
+            
             
         }
     }

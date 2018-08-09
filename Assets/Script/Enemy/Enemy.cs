@@ -5,6 +5,7 @@ using UnityEngine;
 public enum MonsterType {Small, Normal, Big, Elite, Boss }
 public enum MonsterState {Idle, Chase, Attack, Dead }
 public abstract class Enemy : MonoBehaviour {
+    public string enemyName;
     public int enemyAtk;
     public int enemyDef;
     public int enemyMaxHp;
