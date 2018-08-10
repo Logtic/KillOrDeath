@@ -49,8 +49,6 @@ public class SmallEnemy : Enemy {
             MoveRight();
         else
             MoveLeft();
-        
-
     }
 
     public override void ChaseState()
@@ -90,22 +88,40 @@ public class SmallEnemy : Enemy {
     private bool attacking;
     public override void AttackState()
     {
-        if (direction && attacking == false)
+        // 애니메이션에 끝날 때 endAttack을 true로 놓을 것
+        if (direction && attacking == false) // 오른쪽으로 공격
         {
             attacking = true;
             enemyAnim.Play(enemyName + "AttackToRight");
         }
-        else if (!direction && attacking == false)
+        else if (!direction && attacking == false) // 왼쪽으로 공격
         {
             attacking = true;
             enemyAnim.Play(enemyName + "AttackToLeft");
         }
             
-        if (enemyTrigger.endAttack)
+        if (enemyTrigger.endAttack) // 공격 후에는 다시 Chase모드로
         {
             enemyTrigger.endAttack = false;
             attacking = false;
             enemyTrigger.monsterState = MonsterState.Chase;
+        }
+    }
+
+    public override void DeadState()
+    {
+        enemyAnim.Play(enemyName + "Dead"); // 애니메이션에 끝날때 isDead를 true로 놓을 것
+        if (enemyTrigger.isDead)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public override void DeadCheck()
+    {
+        if (enemyCurrentHp <= 0)
+        {
+            enemyTrigger.monsterState = MonsterState.Dead;
         }
     }
     private void Start()

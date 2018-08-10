@@ -7,10 +7,12 @@ public class SmallEnemyBattleTrigger : MonoBehaviour { // 적의 전투관련 �
     public MonsterState monsterState;
     public bool encounterPlayer;
     public bool endAttack;
+    public bool isDead;
 
     private void EnemyAttack(Player player)
     {
         endAttack = true;
+        isDead = false;
         BattleController.AttackEnemyToPlayer(player, this.transform.parent.GetComponent<Enemy>());
     }
     

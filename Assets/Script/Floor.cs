@@ -8,7 +8,7 @@ public class Floor : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().PlayerOnTheFloor();
+            collision.gameObject.GetComponent<PlayerController>().PlayerOnTheFloor();
         }
     }
 }

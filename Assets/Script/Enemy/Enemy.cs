@@ -21,6 +21,8 @@ public abstract class Enemy : MonoBehaviour {
     public virtual void ChaseState() { }
     public virtual void AttackState() { }
     public virtual void DeadState() { }
+
+    public virtual void DeadCheck() { }
     public virtual void EnemyMovement(MonsterState monsterState) {
         switch (monsterState) {
             case MonsterState.Idle:

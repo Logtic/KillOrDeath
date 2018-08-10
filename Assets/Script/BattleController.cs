@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BattleController : MonoBehaviour {
     public static void AttackPlayerToEnemy(Player player, Enemy enemy) {
-        
+
+        enemy.enemyCurrentHp -= 10;
+        enemy.DeadCheck();
         /*플레이어가 적한테 공격한다
          적이 받는 피해는 ( 플레이어의 공격력(playerAtk) + 플레이어의 무기(playerWeapon)의 공격력(weaponAtk) ) / ( 적의 방어력(enemyDef) )이다. 
          
