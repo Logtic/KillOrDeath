@@ -15,6 +15,7 @@ public class SmallEnemy : Enemy {
     {
         attacking = false;
         Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Enemy").GetComponent<Collider2D>(), GetComponent<Collider2D>());
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
