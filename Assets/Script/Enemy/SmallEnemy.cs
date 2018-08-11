@@ -19,6 +19,10 @@ public class SmallEnemy : Enemy {
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerController>().enemy = this.gameObject;
+        }
         if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             
@@ -28,6 +32,10 @@ public class SmallEnemy : Enemy {
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerController>().enemy = null;
+        }
         if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             limitMove = false;
@@ -114,6 +122,7 @@ public class SmallEnemy : Enemy {
         enemyAnim.Play(enemyName + "Dead"); // 애니메이션에 끝날때 isDead를 true로 놓을 것
         if (enemyTrigger.isDead)
         {
+            UIInGame.UIInstance.CheckEnemyCount();
             Destroy(this.gameObject);
         }
     }
@@ -122,6 +131,9 @@ public class SmallEnemy : Enemy {
     {
         if (enemyCurrentHp <= 0)
         {
+            
+
+
             enemyTrigger.monsterState = MonsterState.Dead;
         }
     }

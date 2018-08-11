@@ -27,17 +27,25 @@ public class PlayerController : MonoBehaviour {
             weapon.GetComponent<DropedItem>().OnDestroy();
         }
     }
+    
 
     public void PlayerOnTheFloor()
     {
         currentJumpCount = 0;
     }
-    
+
+    public GameObject enemy;
+
     private void PlayerAttack()
     {
         if (Input.GetButtonDown("NormalAttack"))
         {
+            if (enemy != null)
+            {
+                BattleController.AttackPlayerToEnemy(player, enemy.GetComponent<Enemy>());
+            }
             playerWeapon.GetComponent<Weapon>().NormalAttack();
+
         }
         else if (Input.GetButtonDown("ChargeAttack"))
         {

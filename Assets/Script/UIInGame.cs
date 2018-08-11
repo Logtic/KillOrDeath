@@ -1,15 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIInGame : MonoBehaviour {
-    public Player player;
+   
+    public int count;
+    public Text text;
 
-    static UIInGame UIInstance;
+    public static UIInGame UIInstance;
 
+    public void CheckEnemyCount()
+    {
+        count++;
+        text.text = count.ToString();
+    }
     private void Start()
     {
         UIInstance = this;
+        count = 0;
+        
+         
     }
 
 }
