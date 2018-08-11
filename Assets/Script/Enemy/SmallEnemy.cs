@@ -11,12 +11,13 @@ public class SmallEnemy : Enemy {
 
     private bool limitMove;
     
-    public override void SetInitState()
+    public override void SetInitState() //초기상태로 만들어라
     {
         attacking = false;
         Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Enemy").GetComponent<Collider2D>(), GetComponent<Collider2D>());
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision) //트리거를 만났을때
     {
         if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
@@ -25,7 +26,7 @@ public class SmallEnemy : Enemy {
             limitMove = true;
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision) //틜거랑 덜어졋을때
     {
         if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
