@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-
-    public string playerWeapon;
+    
 
     public int playerAtk;
-    public int playerDef;
     public int playerMaxHp;
     public int playerCurrentHp;
 

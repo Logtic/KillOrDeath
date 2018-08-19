@@ -12,11 +12,19 @@ public class Knife : Weapon {
     public override void NormalAttack()
     {
         anim.Play(weaponName+"NormalAttack");
-        //Instantiate(normalAttackEffect);
+        normalAttackEffect.SetActive(true);
+        //normalAttackEffect.GetComponent<PlayerAttackEffect>().attack = false;
+    }
+    public override void NormalAttackDone()
+    {
+        //normalAttackEffect.GetComponent<PlayerAttackEffect>().attack = false;
+        normalAttackEffect.SetActive(false);
     }
     public override void ChargeAttack()
     {
         anim.Play(weaponName + "ChargeAttack");
+        chargeAttackEffect.SetActive(true);
+        
     }
     private void Start()
     {

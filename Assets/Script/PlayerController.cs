@@ -3,61 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
-    public GameObject playerWeapon;
-
-    public Player player;
-    private int currentJumpCount=0;
     
-    public void ChangeWeapon(GameObject weapon) // weapon = DropedItem
-    {
-        if (Input.GetKeyDown("left alt"))
-        {
-            Debug.Log("left alt");
-            GameObject newWeapon = GameController.gameController.FindWeaponObject(weapon.GetComponent<DropedItem>().itemName); // newWeapon = Weapon
-            playerWeapon.GetComponent<Weapon>().OnDestroy(); // Destroy origin weapon
+    public Player player;
 
-            playerWeapon = weapon;
-            player.playerWeapon = weapon.GetComponent<DropedItem>().itemName; // Change weapon
-
-            GameObject changedWeapon = Instantiate(newWeapon, this.transform);
-            changedWeapon.name = changedWeapon.GetComponent<Weapon>().weaponName;
-            playerWeapon = changedWeapon;
-
-            weapon.GetComponent<DropedItem>().OnDestroy();
-        }
-    }
-
+    public GameObject normalAttackEffect;
+    protected int currentJumpCount=0;
+    
     public void PlayerOnTheFloor()
     {
         currentJumpCount = 0;
     }
-    
-    private void PlayerAttack()
+
+    protected bool attackDirect;
+    public virtual void PlayerAttack()
     {
         if (Input.GetButtonDown("NormalAttack"))
         {
-            playerWeapon.GetComponent<Weapon>().NormalAttack();
-        }
-        else if (Input.GetButtonDown("ChargeAttack"))
-        {
-            playerWeapon.GetComponent<Weapon>().ChargeAttack();
+            if (attackDirect == true)
+            {
+                normalAttackEffect.SetActive(true);
+                normalAttackEffect.GetComponent<Animator>().SetBool("direct", true);
+            }
+            else
+            {
+                normalAttackEffect.SetActive(true);
+                normalAttackEffect.GetComponent<Animator>().SetBool("direct", false);
+            }
         }
     }
 
-    private IEnumerator FallingDown()
+    protected IEnumerator FallingDown()
     {
-        this.GetComponent<BoxCollider2D>().isTrigger = true;
-        yield return new WaitForSeconds(0.5f);
-        this.GetComponent<BoxCollider2D>().isTrigger = false;
+        //this.GetComponent<BoxCollider2D>().isTrigger = true;
+        player.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        yield return new WaitForSeconds(0.3f);
+        //this.GetComponent<BoxCollider2D>().isTrigger = false;
+        player.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        
         yield return null;
     }
 
-    private void PlayerMovement() // 움직임 우선순위 정하기
+    protected void CameraMoving()
+    {
+        float x, y;
+        //mapSize/2-9, mapSize/2-5까지
+        if (this.transform.position.x < UIInGame.UIInstance.mapSize.x / 2 - 9 && this.transform.position.x > -(UIInGame.UIInstance.mapSize.x/2-9))
+            x = this.transform.position.x;
+        else if (this.transform.position.x > UIInGame.UIInstance.mapSize.x / 2 - 9)
+            x = UIInGame.UIInstance.mapSize.x / 2 - 9;
+        else
+            x = -(UIInGame.UIInstance.mapSize.x / 2 - 9);
+
+        if (this.transform.position.y < UIInGame.UIInstance.mapSize.y / 2 - 5 && this.transform.position.y > -(UIInGame.UIInstance.mapSize.y / 2 - 5))
+            y = this.transform.position.y;
+        else if (this.transform.position.y > UIInGame.UIInstance.mapSize.y / 2 - 5)
+            y = UIInGame.UIInstance.mapSize.y/2 - 5;
+        else
+            y = -(UIInGame.UIInstance.mapSize.y / 2 - 5);
+        Camera.main.transform.position = new Vector3(x, y, -10);
+    }
+    public bool isWall = false;
+    public virtual void PlayerMovement() // 움직임 우선순위 정하기
     {
         if (Input.GetAxis("Vertical") < 0) // FallDown
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && currentJumpCount == 0 && isWall == false)
             {
                 StartCoroutine(FallingDown());
             }
@@ -66,24 +76,46 @@ public class PlayerController : MonoBehaviour {
         {
             if (Input.GetButtonDown("Jump") && currentJumpCount < player.playerMaxJumpCount) // JumpCheck
             {
-                this.GetComponent<BoxCollider2D>().isTrigger = true;
+                //this.GetComponent<BoxCollider2D>().isTrigger = true;
+                player.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
                 this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, player.playerJump);
                 currentJumpCount++;
             }
             if (this.GetComponent<Rigidbody2D>().velocity.y < 0)    //TriggerCheck
-                this.GetComponent<BoxCollider2D>().isTrigger = false;
+            {
+                //this.GetComponent<BoxCollider2D>().isTrigger = false;
+                player.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            }
+            
         }
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * player.playerSpeed;
+        if (x > 0)
+        {
+            attackDirect = true;
+            this.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (x < 0)
+        {
+            attackDirect = false;
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }
         transform.Translate(x, 0, 0);
 
+        CameraMoving();
         
     }
 
-    private void Start()
+    public void PlayerCheckDead()
     {
-        GameObject weapon = Instantiate(playerWeapon, this.transform);
-        weapon.name = weapon.GetComponent<Weapon>().weaponName;
-        playerWeapon = weapon;
+        if (player.playerCurrentHp <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void SetInit()
+    {
+        attackDirect = true;
     }
 
     private void Update()

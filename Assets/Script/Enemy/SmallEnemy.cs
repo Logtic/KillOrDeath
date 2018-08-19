@@ -3,35 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SmallEnemy : Enemy {
-    public SmallEnemyBattleTrigger enemyTrigger;
 
     public Animation enemyAnim;
-    
-    public bool direction; // false -> left, true -> right
 
-    private bool limitMove;
-    
-    public override void SetInitState()
-    {
-        attacking = false;
-        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider2D>(), GetComponent<Collider2D>());
-    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger")
+        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
         {
-            
             direction = !direction;
             limitMove = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger")
+        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
         {
             limitMove = false;
         }
     }
+    public override void SetInitState()
+    {
+        attacking = false;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(player.GetComponent<EdgeCollider2D>(), GetComponent<Collider2D>());
+    }
+   
     
     public override void MoveLeft()
     {
@@ -45,6 +44,10 @@ public class SmallEnemy : Enemy {
     public override void IdleState()
     {
         enemyAnim.Play(enemyName + "Idle");
+        if (enemyCurrentHp < enemyMaxHp)
+        {
+            enemyTrigger.monsterState = MonsterState.Chase;
+        }
         if (direction)
             MoveRight();
         else
@@ -53,11 +56,10 @@ public class SmallEnemy : Enemy {
 
     public override void ChaseState()
     {
-        GameObject player = GameObject.FindWithTag("Player");
         enemyAnim.Play(enemyName + "Idle");
         if (!limitMove)
             {
-                if (player.transform.position.x > this.transform.position.x)
+                if (UIInGame.UIInstance.playerController.transform.position.x > this.transform.position.x)
                 {
                     direction = true;
                     MoveRight();
@@ -70,12 +72,12 @@ public class SmallEnemy : Enemy {
             }
             else
             {
-                if (direction == true && player.transform.position.x > this.transform.position.x)
+                if (direction == true && UIInGame.UIInstance.playerController.transform.position.x > this.transform.position.x)
                 {
                     limitMove = false;
                     MoveRight();
                 }
-                else if (direction == false && player.transform.position.x < this.transform.position.x)
+                else if (direction == false && UIInGame.UIInstance.playerController.transform.position.x < this.transform.position.x)
                 {
                     limitMove = false;
                     MoveLeft();
@@ -89,22 +91,27 @@ public class SmallEnemy : Enemy {
     public override void AttackState()
     {
         // 애니메이션에 끝날 때 endAttack을 true로 놓을 것
-        if (direction && attacking == false) // 오른쪽으로 공격
-        {
-            attacking = true;
-            enemyAnim.Play(enemyName + "AttackToRight");
-        }
-        else if (!direction && attacking == false) // 왼쪽으로 공격
-        {
-            attacking = true;
-            enemyAnim.Play(enemyName + "AttackToLeft");
-        }
-            
+        
         if (enemyTrigger.endAttack) // 공격 후에는 다시 Chase모드로
         {
+            enemyTrigger.monsterState = MonsterState.Chase;
             enemyTrigger.endAttack = false;
             attacking = false;
-            enemyTrigger.monsterState = MonsterState.Chase;
+            
+        }
+        else
+        {
+            if (direction && attacking == false) // 오른쪽으로 공격
+            {
+                attacking = true;
+                enemyAnim.Play(enemyName + "AttackToRight");
+            }
+            else if (!direction && attacking == false) // 왼쪽으로 공격
+            {
+                attacking = true;
+                enemyAnim.Play(enemyName + "AttackToLeft");
+            }
+
         }
     }
 
@@ -122,6 +129,7 @@ public class SmallEnemy : Enemy {
         if (enemyCurrentHp <= 0)
         {
             enemyTrigger.monsterState = MonsterState.Dead;
+           
         }
     }
     private void Start()

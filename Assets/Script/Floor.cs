@@ -8,7 +8,13 @@ public class Floor : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log("Floor");
+            collision.gameObject.GetComponent<PlayerController>().isWall = false;
             collision.gameObject.GetComponent<PlayerController>().PlayerOnTheFloor();
         }
+    }
+    private void Start()
+    {
+        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>(), GetComponent<Collider2D>());
     }
 }

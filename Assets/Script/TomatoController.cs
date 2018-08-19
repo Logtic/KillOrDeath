@@ -1,0 +1,122 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TomatoController : PlayerController {
+    public GameObject tomatoSprite;
+    public List<Sprite> attackMotion;
+    public Sprite Idle;
+
+    private int speed;
+    private int jump;
+
+    private void Setting()
+    {
+        speed = player.playerSpeed;
+        jump = player.playerJump;
+    }
+    private void AgainSetting()
+    {
+        player.playerSpeed = speed;
+        player.playerJump = jump;
+    }
+
+    private bool attacking;
+    private IEnumerator Attacking(bool direct)
+    {
+        //Setting();
+        //player.playerSpeed = 0;
+        //player.playerJump = 0;
+        tomatoSprite.transform.rotation = new Quaternion(0, 0, 0, 0);
+           for(int i = 0; i < attackMotion.Count; i++)
+            {
+                tomatoSprite.GetComponent<SpriteRenderer>().sprite = attackMotion[i];
+            if (direct)
+                tomatoSprite.GetComponent<SpriteRenderer>().flipX = false;
+            else
+                tomatoSprite.GetComponent<SpriteRenderer>().flipX = true;
+            yield return new WaitForSeconds(0.1f);
+            }
+        attacking = false;
+        tomatoSprite.GetComponent<SpriteRenderer>().sprite = Idle;
+        //AgainSetting();
+        yield return null;
+       
+    }
+    public override void PlayerAttack()
+    {
+        if (Input.GetButtonDown("NormalAttack"))
+        {
+            attacking = true;
+            if (attackDirect == true)
+            {
+                StartCoroutine(Attacking(attackDirect));
+                //normalAttackEffect.SetActive(true);
+
+            }
+            else
+            {
+                StartCoroutine(Attacking(attackDirect));
+                //normalAttackEffect.SetActive(true);
+            }
+        }
+    }
+
+    private bool isFalling;
+    private IEnumerator TomatoFallingDown()
+    {
+        //this.GetComponent<BoxCollider2D>().isTrigger = true;
+        player.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+        yield return new WaitForSeconds(0.5f);
+        //this.GetComponent<BoxCollider2D>().isTrigger = false;
+        player.gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+        isFalling = false;
+        yield return null;
+    }
+    public override void PlayerMovement()
+    {
+        if (Input.GetAxis("Vertical") < 0) // FallDown
+        {
+            if (Input.GetButtonDown("Jump") && currentJumpCount == 0 && isWall == false)
+            {
+                isFalling = true;
+                StartCoroutine(TomatoFallingDown());
+            }
+        }
+        else if (!isFalling)
+        {
+            if (Input.GetButtonDown("Jump") && currentJumpCount < player.playerMaxJumpCount) // JumpCheck
+            {
+                //this.GetComponent<BoxCollider2D>().isTrigger = true;
+                player.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+                this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, player.playerJump);
+                currentJumpCount++;
+            }
+            if (this.GetComponent<Rigidbody2D>().velocity.y < 0)    //TriggerCheck
+            {
+                //this.GetComponent<BoxCollider2D>().isTrigger = false;
+                player.gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+            }
+
+        }
+        var x = Input.GetAxis("Horizontal") * Time.deltaTime * player.playerSpeed;
+        
+        if (x > 0 && attacking == false)
+        {
+            tomatoSprite.transform.Rotate(0, 0, -x * 20);
+            attackDirect = true;
+            tomatoSprite.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (x < 0 && attacking == false)
+        {
+            tomatoSprite.transform.Rotate(0, 0, -x * 20);
+            attackDirect = false;
+            tomatoSprite.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        transform.Translate(x, 0, 0);
+
+        CameraMoving();
+
+    }
+
+}

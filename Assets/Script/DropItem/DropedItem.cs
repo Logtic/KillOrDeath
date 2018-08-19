@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { Weapon, Potion, Gold }
+public enum ItemType { Potion, Gold }
 public class DropedItem : MonoBehaviour {
 
     public ItemType itemType;
@@ -12,8 +12,7 @@ public class DropedItem : MonoBehaviour {
     {
         if (collision.tag == "Player")
         {
-            if (itemType == ItemType.Weapon)
-                collision.gameObject.GetComponent<PlayerController>().ChangeWeapon(this.gameObject);
+
         }
     }
     

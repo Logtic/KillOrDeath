@@ -20,5 +20,6 @@ public class GameController : MonoBehaviour {
     private void Start()
     {
         gameController = this;
+        Initialization.SetInitializationInGame_Enemy();
     }
 }

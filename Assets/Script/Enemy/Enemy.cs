@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MonsterType {Small, Normal, Big, Elite, Boss }
+public enum MonsterType {Small, KingSlime, Big, Elite, Boss, Abokado }
 public enum MonsterState {Idle, Chase, Attack, Dead }
 public abstract class Enemy : MonoBehaviour {
+
+    public EnemyBattleTrigger enemyTrigger;
     public string enemyName;
     public int enemyAtk;
-    public int enemyDef;
     public int enemyMaxHp;
     public int enemyCurrentHp;
     public float enemySpeed;
+
+    public bool direction; // false -> left, true -> right
+    public bool limitMove;
 
     public virtual void SetInitState() { }
     
