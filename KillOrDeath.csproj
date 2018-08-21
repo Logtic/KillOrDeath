@@ -81,13 +81,17 @@
     <Compile Include="Assets\Script\Animating.cs" />
     <Compile Include="Assets\Script\BattleController.cs" />
     <Compile Include="Assets\Script\ButtonController.cs" />
+    <Compile Include="Assets\Script\CharacterSelect\PlayerButton.cs" />
+    <Compile Include="Assets\Script\CharacterSelect\SelectUI.cs" />
     <Compile Include="Assets\Script\DropItem\DropedItem.cs" />
     <Compile Include="Assets\Script\Enemy\AbokadoEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAttackEffect.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyBattleTrigger.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyUI.cs" />
+    <Compile Include="Assets\Script\Enemy\JamongEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\KingSlimeEnemy.cs" />
+    <Compile Include="Assets\Script\Enemy\KiwiEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\SmallEnemy.cs" />
     <Compile Include="Assets\Script\Floor.cs" />
     <Compile Include="Assets\Script\GameController.cs" />

@@ -13,8 +13,15 @@ public class Floor : MonoBehaviour {
             collision.gameObject.GetComponent<PlayerController>().PlayerOnTheFloor();
         }
     }
-    private void Start()
+
+    private IEnumerator awaking()
     {
+        yield return new WaitForSeconds(0.2f);
         Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>(), GetComponent<Collider2D>());
+        yield return null;
+    }
+    private void Awake()
+    {
+        StartCoroutine(awaking());   
     }
 }

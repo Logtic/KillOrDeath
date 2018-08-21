@@ -32,6 +32,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "Wall")
+        {
+            player.gameObject.GetComponent<Collider2D>().isTrigger = false;
+        }
+    }
+
     protected IEnumerator FallingDown()
     {
         //this.GetComponent<BoxCollider2D>().isTrigger = true;
@@ -74,9 +82,11 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
+            
             if (Input.GetButtonDown("Jump") && currentJumpCount < player.playerMaxJumpCount) // JumpCheck
             {
                 //this.GetComponent<BoxCollider2D>().isTrigger = true;
+
                 player.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
                 this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, player.playerJump);
                 currentJumpCount++;
@@ -101,7 +111,9 @@ public class PlayerController : MonoBehaviour {
         }
         transform.Translate(x, 0, 0);
 
-        CameraMoving();
+        if (UIInGame.UIInstance.isWarping == false)
+            CameraMoving();
+        
         
     }
 

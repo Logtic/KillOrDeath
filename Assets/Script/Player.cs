@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum PlayerType { Tomato, Grape, Lemon, Melon}
 public class Player : MonoBehaviour {
-    
+    public PlayerType playerType;
 
     public int playerAtk;
     public int playerMaxHp;

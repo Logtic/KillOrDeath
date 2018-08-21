@@ -8,7 +8,7 @@ public class LemonAttackEffect : MonoBehaviour {
         if (collision.tag == "Enemy")
         {
                 BattleController.AttackPlayerToEnemy(this.transform.parent.GetComponent<PlayerController>().player, collision.gameObject.transform.parent.GetComponent<Enemy>());
-                SetOffArrow();
+                
            
 
         }

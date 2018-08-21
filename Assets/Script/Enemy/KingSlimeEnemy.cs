@@ -64,7 +64,7 @@ public class KingSlimeEnemy : Enemy {
         enemyTrigger.gameObject.GetComponent<Animator>().SetInteger("State", 2);
         if (!limitMove)
         {
-            if (UIInGame.UIInstance.playerController.transform.position.x > this.transform.position.x)
+            if (UIInGame.UIInstance.player.transform.position.x > this.transform.position.x)
             {
                 enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", true);
                 direction = true;
@@ -79,13 +79,13 @@ public class KingSlimeEnemy : Enemy {
         }
         else
         {
-            if (direction == true && UIInGame.UIInstance.playerController.transform.position.x > this.transform.position.x)
+            if (direction == true && UIInGame.UIInstance.player.transform.position.x > this.transform.position.x)
             {
                 enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", true);
                 limitMove = false;
                 MoveRight();
             }
-            else if (direction == false && UIInGame.UIInstance.playerController.transform.position.x < this.transform.position.x)
+            else if (direction == false && UIInGame.UIInstance.player.transform.position.x < this.transform.position.x)
             {
                 enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", false);
                 limitMove = false;

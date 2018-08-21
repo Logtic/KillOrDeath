@@ -28,17 +28,31 @@ public class TomatoController : PlayerController {
         //player.playerSpeed = 0;
         //player.playerJump = 0;
         tomatoSprite.transform.rotation = new Quaternion(0, 0, 0, 0);
-           for(int i = 0; i < attackMotion.Count; i++)
+        if (direct)
+        {
+            tomatoSprite.GetComponent<SpriteRenderer>().flipX = false;
+            normalAttackEffect.SetActive(true);
+            normalAttackEffect.GetComponent<SpriteRenderer>().flipX = true;
+            normalAttackEffect.transform.localPosition = new Vector3(0.4f, 0, 0);
+        }
+
+        else
+        {
+            tomatoSprite.GetComponent<SpriteRenderer>().flipX = true;
+            normalAttackEffect.SetActive(true);
+            normalAttackEffect.GetComponent<SpriteRenderer>().flipX = false;
+            normalAttackEffect.transform.localPosition = new Vector3(-0.4f, 0, 0);
+        }
+        for (int i = 0; i < attackMotion.Count; i++)
             {
                 tomatoSprite.GetComponent<SpriteRenderer>().sprite = attackMotion[i];
-            if (direct)
-                tomatoSprite.GetComponent<SpriteRenderer>().flipX = false;
-            else
-                tomatoSprite.GetComponent<SpriteRenderer>().flipX = true;
+                
+               
             yield return new WaitForSeconds(0.1f);
             }
         attacking = false;
         tomatoSprite.GetComponent<SpriteRenderer>().sprite = Idle;
+        normalAttackEffect.SetActive(false);
         //AgainSetting();
         yield return null;
        

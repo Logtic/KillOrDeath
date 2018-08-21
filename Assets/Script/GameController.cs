@@ -4,17 +4,31 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     public static GameController gameController;
-    public List<GameObject> spawnWeaponList;
     public List<GameObject> spawnEnemyList;
     
-    public GameObject FindWeaponObject(string weaponName)
+    public bool IsEnemyAllDead()
     {
-        foreach(GameObject w in spawnWeaponList)
+        foreach(GameObject s in spawnEnemyList)
         {
-            if (w.GetComponent<Weapon>().weaponName == weaponName)
-                return w;
+            if (s != null)
+                return false;
         }
-        return null;
+        return true;
+    }
+
+    public IEnumerator CheckAllDead()
+    {
+        yield return new WaitForSeconds(1);
+        if (IsEnemyAllDead())
+        {
+            UIInGame.UIInstance.canWarp = true;
+        }
+        yield return null;
+    }
+
+    public void BattleCheck()
+    {
+        StartCoroutine(CheckAllDead());
     }
 
     private void Start()

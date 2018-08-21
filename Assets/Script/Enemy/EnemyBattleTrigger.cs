@@ -9,10 +9,10 @@ public class EnemyBattleTrigger : MonoBehaviour { // 적의 전투관련 모두
     public GameObject enemyAttackEffect;
     private Animator animator;
     public bool encounterPlayer;
-    public bool endAttack;
+    public bool endAttack = false;
     public bool isDead = false;
 
-    public int enemyHeight;
+    public int enemyHeight; // UI
 
     private void EnemyAttack()
     {

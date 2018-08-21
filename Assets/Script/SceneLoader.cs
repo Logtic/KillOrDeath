@@ -9,15 +9,10 @@ public class SceneLoader : MonoBehaviour {
     public static void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        /*
-        GameObject fadeOutPrefab = Resources.Load("FadeOut") as GameObject;
-        GameObject fadeOut = GameObject.Instantiate(fadeOutPrefab, GameObject.Find("Canvas").transform) as GameObject;
-        fadeOut.GetComponent<FadeOut>().StartFadeOut(() =>
-        {
-            SceneManager.LoadScene(sceneName);
-        });
-        */
+       
     }
+
+    
 
     /*private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

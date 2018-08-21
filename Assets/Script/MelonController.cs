@@ -14,6 +14,7 @@ public class MelonController : PlayerController {
     }
     public void AgainSetting()
     {
+        Debug.Log(setJump);
         player.playerJump = setJump;
         player.playerSpeed = setSpeed;
     }
