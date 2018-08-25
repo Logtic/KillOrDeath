@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\melonEnemy.cs" />
+    <Compile Include="Assets\melonPlayer.cs" />
     <Compile Include="Assets\Script\Animating.cs" />
     <Compile Include="Assets\Script\BattleController.cs" />
     <Compile Include="Assets\Script\ButtonController.cs" />
