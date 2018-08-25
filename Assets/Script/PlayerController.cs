@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (player.playerCurrentHp <= 0)
         {
+            Debug.Log(player.playerCurrentHp);
             Destroy(this.gameObject);
         }
     }

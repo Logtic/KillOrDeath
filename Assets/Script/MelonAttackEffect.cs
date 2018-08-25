@@ -35,7 +35,7 @@ public class MelonAttackEffect : PlayerAttackEffect {
                 this.GetComponent<SpriteRenderer>().color.b, 1);
         this.GetComponent<SpriteRenderer>().sprite = attack2;
         this.GetComponent<BoxCollider2D>().enabled = true;
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         this.transform.parent.GetComponent<MelonController>().AgainSetting();
         this.gameObject.SetActive(false);
         yield return null;
