@@ -45,6 +45,7 @@ public class KiwiEnemy : Enemy {
         float speed = enemySpeed;
         
         enemySpeed = 0;
+
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack1;
         yield return new WaitForSeconds(1);
         enemyTrigger.enemyAttackEffect.SetActive(true);
