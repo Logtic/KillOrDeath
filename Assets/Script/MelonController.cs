@@ -4,28 +4,26 @@ using UnityEngine;
 
 public class MelonController : PlayerController {
     
-    private int setJump;
     private int setSpeed;
 
     public void Setting()
     {
-        setJump = player.playerJump;
+        isAttack = true;
         setSpeed = player.playerSpeed;
+        player.playerSpeed = 0;
     }
     public void AgainSetting()
     {
-        Debug.Log(setJump);
-        player.playerJump = setJump;
+        isAttack = false;
         player.playerSpeed = setSpeed;
     }
 
+    private bool isAttack = false;
     public override void PlayerAttack()
     {
-        if (Input.GetButtonDown("NormalAttack") && currentJumpCount == 0)
+        if (Input.GetButtonDown("NormalAttack") && currentJumpCount == 0 && isAttack == false)
         {
             Setting();
-            player.playerJump = 0;
-            player.playerSpeed = 0;
             if (attackDirect == true)
             {
                 normalAttackEffect.SetActive(true);

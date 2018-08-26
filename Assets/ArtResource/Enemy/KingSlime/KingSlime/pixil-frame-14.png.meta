@@ -1,10 +1,18 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: abfcf93e415c7284a8aeb4be3f0e2f75
 timeCreated: 1535174984
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 4
+=======
+guid: d49659a10de4deb4999f4f05dc13d233
+TextureImporter:
+  fileIDToRecycleName: {}
+  externalObjects: {}
+  serializedVersion: 7
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -12,6 +20,11 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+<<<<<<< HEAD
+=======
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -20,6 +33,11 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+<<<<<<< HEAD
+=======
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -27,10 +45,20 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+<<<<<<< HEAD
     filterMode: -1
     aniso: -1
     mipBias: -1
     wrapMode: 1
+=======
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -39,30 +67,64 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+=======
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+<<<<<<< HEAD
+=======
+  singleChannelComponent: 0
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
+<<<<<<< HEAD
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+=======
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
+=======
+    androidETC2FallbackOverride: 0
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
+<<<<<<< HEAD
   spritePackingTag: 
+=======
+    physicsShape: []
+    bones: []
+    spriteID: a008f107fd9f42045ade1f9a1f023d03
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+>>>>>>> de01400228b4e41e973e951a615570fea7f7124a
   userData: 
   assetBundleName: 
   assetBundleVariant: 
