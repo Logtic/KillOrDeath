@@ -80,6 +80,10 @@ public class UIInGame : MonoBehaviour {
             yield return new WaitForSeconds(0.05f);
         }
         yield return new WaitForSeconds(0.5f);
+        if (nextSceneName == "MapBoss")
+        {
+            SceneLoader.LoadScene(nextSceneName);
+        }
         SceneLoader.MapToMap(nextSceneName);
         yield return null;
     }
