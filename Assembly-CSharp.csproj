@@ -61,36 +61,57 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Animating.cs" />
     <Compile Include="Assets\Script\BattleController.cs" />
     <Compile Include="Assets\Script\ButtonController.cs" />
+    <Compile Include="Assets\Script\CharacterSelect\PlayerButton.cs" />
+    <Compile Include="Assets\Script\CharacterSelect\SelectUI.cs" />
     <Compile Include="Assets\Script\DropItem\DropedItem.cs" />
+    <Compile Include="Assets\Script\Enemy\AbokadoEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Script\Enemy\EnemyAttackEffect.cs" />
+    <Compile Include="Assets\Script\Enemy\EnemyBattleTrigger.cs" />
+    <Compile Include="Assets\Script\Enemy\EnemyUI.cs" />
+    <Compile Include="Assets\Script\Enemy\JamongEnemy.cs" />
+    <Compile Include="Assets\Script\Enemy\KingSlimeEnemy.cs" />
+    <Compile Include="Assets\Script\Enemy\KiwiEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\SmallEnemy.cs" />
-    <Compile Include="Assets\Script\Enemy\SmallEnemyBattleTrigger.cs" />
     <Compile Include="Assets\Script\Floor.cs" />
     <Compile Include="Assets\Script\GameController.cs" />
     <Compile Include="Assets\Script\HpChecker.cs" />
+    <Compile Include="Assets\Script\Initialization.cs" />
+    <Compile Include="Assets\Script\KeySetting.cs" />
+    <Compile Include="Assets\Script\LemonAttackEffect.cs" />
+    <Compile Include="Assets\Script\LemonController.cs" />
+    <Compile Include="Assets\Script\MelonAttackEffect.cs" />
+    <Compile Include="Assets\Script\MelonController.cs" />
     <Compile Include="Assets\Script\NetWork\BulletPrefab.cs" />
     <Compile Include="Assets\Script\NetWork\Move.cs" />
     <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\PlayerAttackEffect.cs" />
     <Compile Include="Assets\Script\PlayerController.cs" />
+    <Compile Include="Assets\Script\PlayerUI.cs" />
     <Compile Include="Assets\Script\SaveData.cs" />
     <Compile Include="Assets\Script\SceneLoader.cs" />
+    <Compile Include="Assets\Script\TomatoAttackEffect.cs" />
+    <Compile Include="Assets\Script\TomatoController.cs" />
     <Compile Include="Assets\Script\UIInGame.cs" />
+    <Compile Include="Assets\Script\Wall.cs" />
+    <Compile Include="Assets\Script\WarpGate.cs" />
     <Compile Include="Assets\Script\Weapon\Knife.cs" />
     <Compile Include="Assets\Script\Weapon\LongSword.cs" />
     <Compile Include="Assets\Script\Weapon\Weapon.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/user/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/송인석/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/user/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/송인석/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/user/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/송인석/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/user/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/송인석/Documents/GitHub/KillOrDeath/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -288,10 +309,10 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/user/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/송인석/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
-      <HintPath>C:/Users/user/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/송인석/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
