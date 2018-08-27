@@ -20,8 +20,7 @@ public class TomatoController : PlayerController {
         isAttack = false;
         player.playerSpeed = setSpeed;
     }
-
-    private bool attacking;
+    
     private IEnumerator Attacking(bool direct)
     {
         
@@ -46,7 +45,7 @@ public class TomatoController : PlayerController {
                 tomatoSprite.GetComponent<SpriteRenderer>().sprite = attackMotion[i];
                 
                
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             }
         attacking = false;
         tomatoSprite.GetComponent<SpriteRenderer>().sprite = Idle;
@@ -60,6 +59,7 @@ public class TomatoController : PlayerController {
     {
         if (Input.GetButtonDown("NormalAttack") && isAttack == false)
         {
+            source.PlayOneShot(AttackSound);
             Setting();
             attacking = true;
             if (attackDirect == true)

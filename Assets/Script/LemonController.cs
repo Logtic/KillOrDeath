@@ -16,9 +16,11 @@ public class LemonController : PlayerController
     }
     public override void PlayerAttack()
     {
-        if (Input.GetButtonDown("NormalAttack"))
+        if (Input.GetButtonDown("NormalAttack") && attacking == false)
         {
+            source.PlayOneShot(AttackSound);
             StartCoroutine(Attacking());
+            attacking = true;
             if (attackDirect == true)
             {
                 normalAttackEffect.SetActive(true);

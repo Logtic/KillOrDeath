@@ -7,7 +7,7 @@ public class AppleEnemy : Enemy {
     public Sprite attack1, attack2, attack3, attack4, attack5, attack6;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             direction = !direction;
             limitMove = true;
@@ -15,7 +15,7 @@ public class AppleEnemy : Enemy {
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             limitMove = false;
         }
@@ -52,9 +52,13 @@ public class AppleEnemy : Enemy {
 
     }
 
-    private IEnumerator Attacking()
+    private IEnumerator Attacking(bool direct)
     {
         attacking = true;
+        float speed = enemySpeed;
+
+        enemySpeed = 0;
+        
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack1;
         yield return new WaitForSeconds(0.1f);
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack2;
@@ -65,8 +69,10 @@ public class AppleEnemy : Enemy {
         yield return new WaitForSeconds(0.1f);
         Debug.Log(enemyAtk);
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack5;
-        enemyAtk += 5;
-        if (direction)
+        
+        yield return new WaitForSeconds(0.5f);
+
+        if (direct)
         {
             enemyTrigger.enemyAttackEffect.SetActive(true);
             enemyTrigger.enemyAttackEffect.GetComponent<SpriteRenderer>().flipX = true;
@@ -74,16 +80,15 @@ public class AppleEnemy : Enemy {
         }
         else
         {
-            
+
             enemyTrigger.enemyAttackEffect.SetActive(true);
             enemyTrigger.enemyAttackEffect.GetComponent<SpriteRenderer>().flipX = false;
             enemyTrigger.enemyAttackEffect.transform.localPosition = new Vector3(-3.5f, 0, 0);
         }
-        yield return new WaitForSeconds(0.5f);
-        Debug.Log(enemyAtk);
-        enemyAtk = 2;
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack6;
         yield return new WaitForSeconds(0.5f);
+
+        enemySpeed = speed;
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = idle1;
         enemyTrigger.enemyAttackEffect.GetComponent<EnemyAttackEffect>().DisableEffect();
         yield return null;
@@ -100,7 +105,7 @@ public class AppleEnemy : Enemy {
             {
                 direction = true;
                 MoveRight();
-                if (player.transform.position.x < this.transform.position.x + 5)
+                if (player.transform.position.x < this.transform.position.x + 2)
                 {
                     AttackState();
                 }
@@ -110,7 +115,7 @@ public class AppleEnemy : Enemy {
             {
                 direction = false;
                 MoveLeft();
-                if (player.transform.position.x > this.transform.position.x - 5)
+                if (player.transform.position.x > this.transform.position.x - 2)
                     AttackState();
             }
         }
@@ -120,20 +125,24 @@ public class AppleEnemy : Enemy {
             {
                 limitMove = false;
                 MoveRight();
-
+                if (player.transform.position.x < this.transform.position.x + 2)
+                {
+                    AttackState();
+                }
             }
             else if (direction == false && player.transform.position.x < this.transform.position.x)
             {
                 limitMove = false;
                 MoveLeft();
-
+                if (player.transform.position.x > this.transform.position.x - 2)
+                    AttackState();
             }
         }
     }
     public override void AttackState()
     {
         // 애니메이션에 끝날 때 endAttack을 true로 놓을 것
-
+        enemyTrigger.monsterState = MonsterState.Attack;
         if (enemyTrigger.endAttack) // 공격 후에는 다시 Chase모드로
         {
             enemyTrigger.enemyAttackEffect.GetComponent<EnemyAttackEffect>().attack = false;
@@ -147,11 +156,13 @@ public class AppleEnemy : Enemy {
         {
             if (direction && attacking == false) // 오른쪽으로 공격
             {
-                StartCoroutine(Attacking());
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                StartCoroutine(Attacking(true));
             }
             else if (!direction && attacking == false) // 왼쪽으로 공격
             {
-                StartCoroutine(Attacking());
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                StartCoroutine(Attacking(false));
             }
 
         }
@@ -170,10 +181,6 @@ public class AppleEnemy : Enemy {
             enemyTrigger.monsterState = MonsterState.Dead;
 
         }
-    }
-    private void Start()
-    {
-        SetInitState();
     }
     private void Update()
     {

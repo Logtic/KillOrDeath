@@ -8,7 +8,7 @@ public class AbokadoEnemy : Enemy {
     public Sprite attack;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             direction = !direction;
             limitMove = true;
@@ -16,7 +16,7 @@ public class AbokadoEnemy : Enemy {
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger" )
         {
             limitMove = false;
         }
@@ -45,7 +45,7 @@ public class AbokadoEnemy : Enemy {
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack;
         yield return new WaitForSeconds(0.5f);
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = idle;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1);
 
     }
 
@@ -79,13 +79,17 @@ public class AbokadoEnemy : Enemy {
             {
                 limitMove = false;
                 MoveRight();
-               
+                if (player.transform.position.x < this.transform.position.x + 5)
+                {
+                    AttackState();
+                }
             }
             else if (direction == false && player.transform.position.x < this.transform.position.x)
             {
                 limitMove = false;
                 MoveLeft();
-               
+                if (player.transform.position.x > this.transform.position.x - 5)
+                    AttackState();
             }
         }
     }
@@ -107,6 +111,7 @@ public class AbokadoEnemy : Enemy {
            
             if (direction && attacking == false) // 오른쪽으로 공격
             {
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = true;
                 enemyTrigger.enemyAttackEffect.SetActive(true);
                 StartCoroutine(Attacking());
                 enemyTrigger.enemyAttackEffect.GetComponent<Animator>().SetBool("direct", true);
@@ -114,6 +119,7 @@ public class AbokadoEnemy : Enemy {
             }
             else if (!direction && attacking == false) // 왼쪽으로 공격
             {
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = false;
                 enemyTrigger.enemyAttackEffect.SetActive(true);
                 StartCoroutine(Attacking());
                 enemyTrigger.enemyAttackEffect.GetComponent<Animator>().SetBool("direct", false);
@@ -136,10 +142,6 @@ public class AbokadoEnemy : Enemy {
             enemyTrigger.monsterState = MonsterState.Dead;
 
         }
-    }
-    private void Start()
-    {
-        SetInitState();
     }
     private void Update()
     {

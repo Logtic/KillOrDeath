@@ -21,7 +21,9 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(1);
         if (IsEnemyAllDead())
         {
+            UIInGame.UIInstance.GameClear();
             UIInGame.UIInstance.canWarp = true;
+            UIInGame.UIInstance.WarpOpen();
         }
         yield return null;
     }
@@ -34,6 +36,6 @@ public class GameController : MonoBehaviour {
     private void Start()
     {
         gameController = this;
-        Initialization.SetInitializationInGame_Enemy();
+        
     }
 }

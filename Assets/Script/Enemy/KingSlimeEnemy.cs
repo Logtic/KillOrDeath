@@ -4,151 +4,97 @@ using UnityEngine;
 
 public class KingSlimeEnemy : Enemy {
     
+    public GameObject slimeMove;
+    public GameObject slimeAttack1;
+    public GameObject slimeAttack2;
     
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
-        {
-            direction = !direction;
-            limitMove = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
-        {
-            limitMove = false;
-        }
-    }
-    public override void SetInitState()
-    {
-        attacking = false;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), GetComponent<Collider2D>());
-        Physics2D.IgnoreCollision(player.GetComponent<EdgeCollider2D>(), GetComponent<Collider2D>());
-    }
 
-
-    public override void MoveLeft()
-    {
-        this.transform.position = new Vector2(this.transform.position.x - enemySpeed * Time.deltaTime, this.transform.position.y);
-    }
     public override void MoveRight()
     {
-        this.transform.position = new Vector2(this.transform.position.x + enemySpeed * Time.deltaTime, this.transform.position.y);
+        this.transform.position = new Vector2(this.transform.position.x + enemySpeed * 0.01f, this.transform.position.y);
+        slimeMove.GetComponent<SpriteRenderer>().flipX = true;
+
+    }
+    public override void MoveLeft()
+    {
+        this.transform.position = new Vector2(this.transform.position.x - enemySpeed * 0.01f, this.transform.position.y);
+        slimeMove.GetComponent<SpriteRenderer>().flipX = false;
     }
 
-    
-
-    public override void IdleState()
+    public void ChasePlayer()
     {
-        
-        if (direction)
+        if (this.transform.position.x > UIInGame.UIInstance.player.transform.position.x)
         {
-            enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", true);
-            enemyTrigger.gameObject.GetComponent<Animator>().SetInteger("State", 1);
-            MoveRight();
-        }
-            
-        else
-        {
-            enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", false);
-            enemyTrigger.gameObject.GetComponent<Animator>().SetInteger("State", 1);
             MoveLeft();
         }
-            
+        else if (this.transform.position.x < UIInGame.UIInstance.player.transform.position.x)
+        {
+            MoveRight();
+        }
     }
-
-    public override void ChaseState()
+    public void Move()
     {
-        enemyTrigger.gameObject.GetComponent<Animator>().SetInteger("State", 2);
-        if (!limitMove)
-        {
-            if (UIInGame.UIInstance.player.transform.position.x > this.transform.position.x)
-            {
-                enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", true);
-                direction = true;
-                MoveRight();
-            }
-            else
-            {
-                enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", false);
-                direction = false;
-                MoveLeft();
-            }
-        }
-        else
-        {
-            if (direction == true && UIInGame.UIInstance.player.transform.position.x > this.transform.position.x)
-            {
-                enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", true);
-                limitMove = false;
-                MoveRight();
-            }
-            else if (direction == false && UIInGame.UIInstance.player.transform.position.x < this.transform.position.x)
-            {
-                enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", false);
-                limitMove = false;
-                MoveLeft();
-            }
-        }
-
-
+        slimeMove.SetActive(true);
+        slimeAttack1.SetActive(false);
+        slimeAttack2.SetActive(false);
     }
-
-    private bool attacking;
-    public override void AttackState()
+    public void Attack1()
     {
-        // 애니메이션에 끝날 때 endAttack을 true로 놓을 것
-        
-        enemyTrigger.gameObject.GetComponent<Animator>().SetInteger("State", 3);
-        if (enemyTrigger.endAttack) // 공격 후에는 다시 Chase모드로
+        slimeMove.SetActive(false);
+        slimeAttack1.SetActive(true);
+        slimeAttack2.SetActive(false);
+    }
+    public void Attack2()
+    {
+        slimeMove.SetActive(false);
+        slimeAttack1.SetActive(false);
+        slimeAttack2.SetActive(true);
+    }
+    private IEnumerator KingSlimeControll()
+    {
+        Move();
+        yield return new WaitForSeconds(2);
+        for (int i = 0; i < 100; i++)
         {
-            enemyTrigger.monsterState = MonsterState.Chase;
-            enemyTrigger.endAttack = false;
-            attacking = false;
-
+            ChasePlayer();
+            yield return new WaitForSeconds(0.05f);
         }
-        else
+        Attack1();
+        yield return new WaitForSeconds(3.5f);
+        Move();
+        for (int i = 0; i < 100; i++)
         {
-            if (direction && attacking == false) // 오른쪽으로 공격
-            {
-                enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", true);
-                attacking = true;
-            }
-            else if (!direction && attacking == false) // 왼쪽으로 공격
-            {
-                enemyTrigger.gameObject.GetComponent<Animator>().SetBool("Direction", false);
-                attacking = true;
-            }
-
+            ChasePlayer();
+            yield return new WaitForSeconds(0.05f);
         }
+        yield return new WaitForSeconds(5);
+        Attack2();
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(KingSlimeControll());
     }
 
+    public override void SetInitState()
+    {
+        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Floor").GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
+
+        base.SetInitState();
+        StartCoroutine(KingSlimeControll());
+    }
     public override void DeadState()
     {
-        enemyTrigger.gameObject.GetComponent<Animator>().SetInteger("State", 4);
-        if (enemyTrigger.isDead)
-        {
-            Destroy(this.gameObject);
-        }
+        Destroy(this.gameObject);
+
     }
 
     public override void DeadCheck()
     {
         if (enemyCurrentHp <= 0)
         {
-            enemyTrigger.monsterState = MonsterState.Dead;
+            DeadState();
 
         }
     }
     private void Start()
     {
-        SetInitState();
     }
-    private void Update()
-    {
-        base.EnemyMovement(enemyTrigger.monsterState);
-    }
-
 }

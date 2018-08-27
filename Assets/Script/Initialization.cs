@@ -11,11 +11,13 @@ public class Initialization : MonoBehaviour {
 
     public static void SetInitializationInGame_Enemy()
     {
+       
         foreach(GameObject enemy in GameController.gameController.spawnEnemyList)
         {
-            Debug.Log("wer");
+            enemy.GetComponent<Enemy>().SetInitState();
             GameObject newEnemyUI = Instantiate(UIInGame.UIInstance.enemyUI, GameObject.Find("Canvas").transform);
             newEnemyUI.GetComponent<EnemyUI>().SetInit(enemy.GetComponent<Enemy>());
+            Debug.Log("NewOne");
         }
     }
 }

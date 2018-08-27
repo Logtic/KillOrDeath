@@ -19,9 +19,14 @@ public class MelonController : PlayerController {
     }
 
     private bool isAttack = false;
+
+    public void PlayerAttackSound()
+    {
+        source.PlayOneShot(AttackSound);
+    }
     public override void PlayerAttack()
     {
-        if (Input.GetButtonDown("NormalAttack") && currentJumpCount == 0 && isAttack == false)
+        if (Input.GetButtonDown("NormalAttack") && isAttack == false)
         {
             Setting();
             if (attackDirect == true)
