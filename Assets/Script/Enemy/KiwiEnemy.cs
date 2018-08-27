@@ -9,7 +9,7 @@ public class KiwiEnemy : Enemy {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             direction = !direction;
             limitMove = true;
@@ -17,7 +17,7 @@ public class KiwiEnemy : Enemy {
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger" )
         {
             limitMove = false;
         }
@@ -40,24 +40,16 @@ public class KiwiEnemy : Enemy {
         attacking = false;
         base.SetInitState();
     }
-    private IEnumerator Attacking()
+    private IEnumerator Attacking(bool check)
     {
-        float speed = enemySpeed;
-        
-        enemySpeed = 0;
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack1;
-        yield return new WaitForSeconds(1);
-        enemyTrigger.enemyAttackEffect.SetActive(true);
-        if (direction)
-            enemyTrigger.enemyAttackEffect.GetComponent<Animator>().SetBool("direct", true);
-        else
-            enemyTrigger.enemyAttackEffect.GetComponent<Animator>().SetBool("direct", false);
-        enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack2;
         yield return new WaitForSeconds(0.2f);
-        enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack3;
-        yield return new WaitForSeconds(1);
        
-        enemySpeed = speed;
+        enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack2;
+        yield return new WaitForSeconds(0.3f);
+        enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack3;
+        yield return new WaitForSeconds(0.5f);
+       
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = idle;
         
         yield return null;
@@ -94,13 +86,17 @@ public class KiwiEnemy : Enemy {
             {
                 limitMove = false;
                 MoveRight();
-
+                if (player.transform.position.x < this.transform.position.x + 3)
+                {
+                    AttackState();
+                }
             }
             else if (direction == false && player.transform.position.x < this.transform.position.x)
             {
                 limitMove = false;
                 MoveLeft();
-
+                if (player.transform.position.x > this.transform.position.x - 3)
+                    AttackState();
             }
         }
     }
@@ -119,13 +115,22 @@ public class KiwiEnemy : Enemy {
         {
             if (direction && attacking == false) // 오른쪽으로 공격
             {
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                
+                enemyTrigger.enemyAttackEffect.SetActive(true);
+                StartCoroutine(Attacking(direction)); 
+                enemyTrigger.enemyAttackEffect.GetComponent<Animator>().SetBool("direct", true);
                 attacking = true;
-                StartCoroutine(Attacking());
+                    
             }
             else if (!direction && attacking == false) // 왼쪽으로 공격
             {
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                enemyTrigger.enemyAttackEffect.SetActive(true);
+                
+                StartCoroutine(Attacking(direction));
+                enemyTrigger.enemyAttackEffect.GetComponent<Animator>().SetBool("direct", false);
                 attacking = true;
-                StartCoroutine(Attacking());
             }
 
         }
@@ -142,11 +147,6 @@ public class KiwiEnemy : Enemy {
             enemyTrigger.monsterState = MonsterState.Dead;
             
         }
-    }
-    private void Start()
-    {
-        SetInitState();
-        
     }
     private void Update()
     {

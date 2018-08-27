@@ -34,6 +34,7 @@ public class WarpGate : MonoBehaviour {
                     PlayerPrefs.SetInt("warpGate", 2);
                 }
                 UIInGame.UIInstance.isWarping = true;
+                UIInGame.UIInstance.nextSceneName = sceneName;
                 UIInGame.UIInstance.WarpOtherScene();
             }
             

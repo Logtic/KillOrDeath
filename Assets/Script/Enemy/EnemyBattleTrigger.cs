@@ -55,6 +55,7 @@ public class EnemyBattleTrigger : MonoBehaviour { // 적의 전투관련 모두
     private void Start()
     {
         animator = this.GetComponent<Animator>();
+        
     }
     //몬스터가 플레이어를 어케 감지하는가
 }

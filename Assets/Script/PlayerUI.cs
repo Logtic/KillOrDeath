@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour {
     public PlayerController playerController;
     public Slider playerHpBar;
-    public Image playerWeaponImage;
-
     public void SetInit(PlayerController player)
     {
         playerController = player;

@@ -9,13 +9,12 @@ public class LemonAttackEffect : MonoBehaviour {
         {
                 BattleController.AttackPlayerToEnemy(this.transform.parent.GetComponent<PlayerController>().player, collision.gameObject.transform.parent.GetComponent<Enemy>());
                 
-           
-
         }
     }
 
     public void SetOffArrow()
     {
+        this.transform.parent.GetComponent<PlayerController>().attacking = false;
         this.gameObject.SetActive(false);
     }
 }

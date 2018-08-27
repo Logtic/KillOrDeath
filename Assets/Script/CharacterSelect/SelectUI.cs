@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class SelectUI : MonoBehaviour {
 
     public static SelectUI selectUI;
-
+    public GameObject source;
     public PlayerType player;
 
     public GameObject Tomato;
     public GameObject Lemon;
     public GameObject Melon;
+    public GameObject Grape;
 
     public void SelectPlayer(PlayerType playerType)
     {
@@ -21,19 +22,30 @@ public class SelectUI : MonoBehaviour {
             Tomato.GetComponent<Image>().color = Color.black;
             Lemon.GetComponent<Image>().color = Color.white;
             Melon.GetComponent<Image>().color = Color.white;
+            Grape.GetComponent<Image>().color = Color.white;
         }
         else if (playerType == PlayerType.Lemon)
         {
             Tomato.GetComponent<Image>().color = Color.white;
             Lemon.GetComponent<Image>().color = Color.black;
             Melon.GetComponent<Image>().color = Color.white;
+            Grape.GetComponent<Image>().color = Color.white;
+        }
+        else if (playerType == PlayerType.Grape)
+        {
+            Tomato.GetComponent<Image>().color = Color.white;
+            Lemon.GetComponent<Image>().color = Color.white;
+            Melon.GetComponent<Image>().color = Color.white;
+            Grape.GetComponent<Image>().color = Color.black;
         }
         else if (playerType == PlayerType.Melon)
         {
             Tomato.GetComponent<Image>().color = Color.white;
             Lemon.GetComponent<Image>().color = Color.white;
             Melon.GetComponent<Image>().color = Color.black;
+            Grape.GetComponent<Image>().color = Color.white;
         }
+        
     }
 
     public void GameStart()
@@ -45,10 +57,14 @@ public class SelectUI : MonoBehaviour {
             str = "Lemon";
         else if (player == PlayerType.Melon)
             str = "Melon";
-        else
+        else 
             str = "Grape";
         PlayerPrefs.SetString("player", str);
-        SceneLoader.LoadScene("testMode");
+        PlayerPrefs.SetInt("warpGate", 3);
+        PlayerPrefs.SetInt("playerCurrentHp", -1);
+        source.SetActive(true);
+        DontDestroyOnLoad(source);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Map1");
     }
 
     private void Start()

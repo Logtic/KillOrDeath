@@ -31,11 +31,12 @@ public class MelonAttackEffect : PlayerAttackEffect {
                 this.GetComponent<SpriteRenderer>().color.b, this.GetComponent<SpriteRenderer>().color.a - (float)(0.3*i));
             yield return new WaitForSeconds(0.5f);
         }
+        this.transform.parent.GetComponent<MelonController>().PlayerAttackSound();
         this.GetComponent<SpriteRenderer>().color = new Color(this.GetComponent<SpriteRenderer>().color.r, this.GetComponent<SpriteRenderer>().color.g,
                 this.GetComponent<SpriteRenderer>().color.b, 1);
         this.GetComponent<SpriteRenderer>().sprite = attack2;
         this.GetComponent<BoxCollider2D>().enabled = true;
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         this.transform.parent.GetComponent<MelonController>().AgainSetting();
         this.gameObject.SetActive(false);
         yield return null;

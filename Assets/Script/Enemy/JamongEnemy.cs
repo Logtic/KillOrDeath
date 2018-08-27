@@ -8,7 +8,7 @@ public class JamongEnemy : Enemy
     public Sprite attack1, attack2;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             direction = !direction;
             limitMove = true;
@@ -16,7 +16,7 @@ public class JamongEnemy : Enemy
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyFloorTrigger" && enemyTrigger.monsterState != MonsterState.Attack)
+        if (collision.gameObject.tag == "EnemyFloorTrigger")
         {
             limitMove = false;
         }
@@ -55,6 +55,10 @@ public class JamongEnemy : Enemy
 
     private IEnumerator Attacking()
     {
+        float speed = enemySpeed;
+
+        enemySpeed = 0;
+
         attacking = true;
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack1;
         yield return new WaitForSeconds(0.5f);
@@ -72,6 +76,7 @@ public class JamongEnemy : Enemy
         }
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = attack2;
         yield return new WaitForSeconds(1);
+        enemySpeed = speed;
         enemyTrigger.gameObject.GetComponent<SpriteRenderer>().sprite = idle1;
         enemyTrigger.enemyAttackEffect.GetComponent<EnemyAttackEffect>().DisableEffect();
         yield return null;
@@ -131,10 +136,12 @@ public class JamongEnemy : Enemy
         {
             if (direction && attacking == false) // 오른쪽으로 공격
             {
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = true;
                 StartCoroutine(Attacking());
             }
             else if (!direction && attacking == false) // 왼쪽으로 공격
             {
+                enemyTrigger.gameObject.GetComponent<SpriteRenderer>().flipX = false;
                 StartCoroutine(Attacking());
             }
 
@@ -154,10 +161,6 @@ public class JamongEnemy : Enemy
             enemyTrigger.monsterState = MonsterState.Dead;
 
         }
-    }
-    private void Start()
-    {
-        SetInitState();
     }
     private void Update()
     {

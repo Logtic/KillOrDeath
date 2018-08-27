@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MonsterType {Small, Abokado, Jamong, Kiwi }
+public enum MonsterType {Abokado, Jamong, Kiwi, Apple, Cherry, NormalSlime }
 public enum MonsterState {Idle, Chase, Attack, Dead }
 public abstract class Enemy : MonoBehaviour {
 
@@ -17,11 +17,12 @@ public abstract class Enemy : MonoBehaviour {
     public bool limitMove;
 
     public virtual void SetInitState() {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player.GetComponent<PlayerController>().player.playerType == PlayerType.Tomato)
-            Physics2D.IgnoreCollision(player.GetComponent<PlayerController>().player.gameObject.GetComponent<CircleCollider2D>(), GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Enemy").transform.parent.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+       
+        if (UIInGame.UIInstance.player.GetComponent<PlayerController>().player.playerType == PlayerType.Tomato)
+            Physics2D.IgnoreCollision(UIInGame.UIInstance.player.GetComponent<PlayerController>().player.gameObject.GetComponent<CircleCollider2D>(), GetComponent<Collider2D>());
         else
-            Physics2D.IgnoreCollision(player.GetComponent<PlayerController>().player.gameObject.GetComponent<BoxCollider2D>(), GetComponent<Collider2D>());
+            Physics2D.IgnoreCollision(UIInGame.UIInstance.player.GetComponent<PlayerController>().player.gameObject.GetComponent<BoxCollider2D>(), GetComponent<Collider2D>());
     }
     
     public virtual void MoveRight() { this.transform.position = new Vector2(this.transform.position.x + enemySpeed * Time.deltaTime, this.transform.position.y);

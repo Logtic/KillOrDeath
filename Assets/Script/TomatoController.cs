@@ -7,26 +7,23 @@ public class TomatoController : PlayerController {
     public List<Sprite> attackMotion;
     public Sprite Idle;
 
-    private int speed;
-    private int jump;
-
-    private void Setting()
+    private bool isAttack = false;
+    private int setSpeed;
+    public void Setting()
     {
-        speed = player.playerSpeed;
-        jump = player.playerJump;
+        isAttack = true;
+        setSpeed = player.playerSpeed;
+        player.playerSpeed = 0;
     }
-    private void AgainSetting()
+    public void AgainSetting()
     {
-        player.playerSpeed = speed;
-        player.playerJump = jump;
+        isAttack = false;
+        player.playerSpeed = setSpeed;
     }
-
-    private bool attacking;
+    
     private IEnumerator Attacking(bool direct)
     {
-        //Setting();
-        //player.playerSpeed = 0;
-        //player.playerJump = 0;
+        
         tomatoSprite.transform.rotation = new Quaternion(0, 0, 0, 0);
         if (direct)
         {
@@ -52,6 +49,7 @@ public class TomatoController : PlayerController {
             }
         attacking = false;
         tomatoSprite.GetComponent<SpriteRenderer>().sprite = Idle;
+        AgainSetting();
         normalAttackEffect.SetActive(false);
         //AgainSetting();
         yield return null;
@@ -59,8 +57,10 @@ public class TomatoController : PlayerController {
     }
     public override void PlayerAttack()
     {
-        if (Input.GetButtonDown("NormalAttack"))
+        if (Input.GetButtonDown("NormalAttack") && isAttack == false)
         {
+            source.PlayOneShot(AttackSound);
+            Setting();
             attacking = true;
             if (attackDirect == true)
             {

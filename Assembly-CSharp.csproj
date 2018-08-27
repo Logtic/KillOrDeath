@@ -61,6 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <Compile Include="Assets\melonEnemy.cs" />
+    <Compile Include="Assets\melonPlayer.cs" />
+>>>>>>> f36cf00ed898053bbfb5ad94dfb92d23dcb43878
     <Compile Include="Assets\Script\Animating.cs" />
     <Compile Include="Assets\Script\BattleController.cs" />
     <Compile Include="Assets\Script\ButtonController.cs" />
@@ -68,6 +73,10 @@
     <Compile Include="Assets\Script\CharacterSelect\SelectUI.cs" />
     <Compile Include="Assets\Script\DropItem\DropedItem.cs" />
     <Compile Include="Assets\Script\Enemy\AbokadoEnemy.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Assets\Script\Enemy\AppleEnemy.cs" />
+>>>>>>> f36cf00ed898053bbfb5ad94dfb92d23dcb43878
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAttackEffect.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyBattleTrigger.cs" />

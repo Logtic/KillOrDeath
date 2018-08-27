@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour {
     
+    public AudioClip AttackSound;
     public Player player;
-
+    protected AudioSource source;
     public GameObject normalAttackEffect;
     protected int currentJumpCount=0;
     
@@ -14,11 +16,14 @@ public class PlayerController : MonoBehaviour {
         currentJumpCount = 0;
     }
 
+    public bool attacking=false;
     protected bool attackDirect;
     public virtual void PlayerAttack()
     {
-        if (Input.GetButtonDown("NormalAttack"))
+        if (Input.GetButtonDown("NormalAttack") && attacking == false)
         {
+            source.PlayOneShot(AttackSound);
+            attacking = true;
             if (attackDirect == true)
             {
                 normalAttackEffect.SetActive(true);
@@ -103,11 +108,13 @@ public class PlayerController : MonoBehaviour {
         {
             attackDirect = true;
             this.GetComponent<SpriteRenderer>().flipX = false;
+            
         }
         else if (x < 0)
         {
             attackDirect = false;
             this.GetComponent<SpriteRenderer>().flipX = true;
+            
         }
         transform.Translate(x, 0, 0);
 
@@ -121,6 +128,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (player.playerCurrentHp <= 0)
         {
+            UIInGame.UIInstance.GameOver();
             Destroy(this.gameObject);
         }
     }
@@ -128,6 +136,7 @@ public class PlayerController : MonoBehaviour {
     public void SetInit()
     {
         attackDirect = true;
+        source = GetComponent<AudioSource>();
     }
 
     private void Update()

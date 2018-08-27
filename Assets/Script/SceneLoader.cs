@@ -5,11 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour {
     private static bool sceneLoadSetup = false;
-    
     public static void LoadScene(string sceneName)
     {
+        if (GameObject.FindGameObjectWithTag("bgm") != null)
+            Destroy(GameObject.FindGameObjectWithTag("bgm"));
         SceneManager.LoadScene(sceneName);
-       
+    }
+    public static void MapToMap(string mapName)
+    {
+        PlayerPrefs.SetInt("playerCurrentHp", UIInGame.UIInstance.player.GetComponent<PlayerController>().player.playerCurrentHp);
+        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("bgm"));
+        SceneManager.LoadScene(mapName);
     }
 
     
